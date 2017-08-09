@@ -15,25 +15,45 @@ for(var i=0; i < pacientes.length; i++) {
 }
 
 function validarCalcularIMC(peso, altura) {
-    var pesoValido = true;
-    var alturaValida = true;
 
-    if(peso <= 0 || peso > 1000) {
+    if(!validaPeso(peso)) {
         console.log("Peso Inválido");
-        pesoValido = false;
-        paciente.style.backgroundColor = "yellow";
+        paciente.classList.add("linha-invalida");
         return "Peso inválido";
     }
 
-    if(altura <= 0 || altura >= 3) {
+    if(!validaAltura(altura)) {
         console.log("Altura inválida");
-        alturaValida = false;
         paciente.classList.add("linha-invalida");
         return "Altura inválida";
     }
 
-    if(pesoValido && alturaValida) {
+    if(validaPaciente(peso, altura)) {
         return calculaIMC(peso, altura);
+    }
+}
+
+function validaPaciente(peso, altura) {
+    if(validaAltura(altura) && validaPeso(peso)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validaAltura(altura) {
+    if(altura <= 0 || altura >= 3) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function validaPeso(peso) {
+    if(peso <= 0 || peso > 1000) {
+        return false;
+    } else {
+        return true;
     }
 }
 
