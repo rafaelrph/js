@@ -6,7 +6,9 @@ campoFiltro.addEventListener("input", function () {
         if(this.value !== null) {
             if(this.value.length > 0) {
                 var nome = pacientes[i].querySelector(".info-nome").textContent;
-                if(nome != this.value) {
+                var expressao = new RegExp(this.value, "i");
+
+                if(!expressao.test(nome)) {
                     pacientes[i].classList.add("hide");
                 } else {
                     pacientes[i].classList.remove("hide");

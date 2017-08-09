@@ -22,9 +22,7 @@ botaoAddPaciente.addEventListener("click", function(event){
 
 function verificarDiv(){
     var divErros = document.querySelector("#erros");
-    if(divErros.classList.contains("show")) {
-        hideDiv(divErros);
-    }
+    hideDiv(divErros);
 }
 
 function montarTr(formulario) {
@@ -53,11 +51,9 @@ function adicionaErros(erros) {
 
 function showDiv(div){
     div.classList.remove("hide");
-    div.classList.add("show");
 }
 
 function hideDiv(div) {
-    div.classList.remove("show");
     div.classList.add("hide");
 }
 
