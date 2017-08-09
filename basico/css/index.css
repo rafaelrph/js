@@ -158,3 +158,9 @@ button[disabled=disabled], button:disabled {
 	opacity: 0;
 	transition: 0.5s;
 }
+
+#filtro {
+	margin-bottom: 1em;
+	padding: 0.7em;
+	width: 20em;
+}
