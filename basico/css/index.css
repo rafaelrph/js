@@ -136,3 +136,20 @@ button[disabled=disabled], button:disabled {
 .linha-invalida {
 	background-color: gray;
 }
+
+.div-erros {
+	padding: 0.8em;
+	margin: 1.5em 0;
+	border: 0.1em solid #da5867;
+	color: #b60f22;
+	background: #f9e7e9;
+	border-radius: 0.2em;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: block;
+}
