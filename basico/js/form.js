@@ -69,9 +69,9 @@ function limparDiv(div) {
 
 function montarUl(erros) {
     var ul = document.createElement("ul");
-    for(var i=0; i < erros.length; i++) {
-        ul.appendChild(montarLi(erros[i]));
-    }
+    erros.forEach(function(erro) {
+        ul.appendChild(montarLi(erro));
+    });
     return ul;
 }
 

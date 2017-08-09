@@ -153,3 +153,8 @@ button[disabled=disabled], button:disabled {
 .show {
 	display: block;
 }
+
+.fade-out {
+	opacity: 0;
+	transition: 0.5s;
+}
