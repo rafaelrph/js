@@ -1,4 +1,5 @@
 var campoFiltro = document.querySelector("#filtro");
+
 campoFiltro.addEventListener("input", function () {
     
     var pacientes = document.querySelectorAll(".paciente");
