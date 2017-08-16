@@ -59,6 +59,8 @@
     </table>
     
     <script src="js/app/models/Negociacao.js"></script>
+    <script src="js/app/models/ListaNegociacoes.js"></script>
+    <script src="js/app/models/Codigo.js"></script>
     <script src="js/app/helpers/DateHelper.js"></script>
     <script src="js/app/controllers/NegociacaoController.js"></script>
 
@@ -71,6 +73,10 @@
         console.log(n1.valor);
 
         let negociacaoController = new NegociacaoController();
+
+        let codigo = new Codigo(/\D{3}-\D{2}-\d{2}/);
+        console.log(codigo.validar("GWP-DD-11"));
+        console.log(codigo.validar("GW0-DD-11"));
 
     </script>
 </body>
