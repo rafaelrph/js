@@ -21,8 +21,8 @@ class NegociacaoView {
                 </thead>
                 
                 <tbody>
-                    ${modelo.negociacoes.map(neg => {
-                        return `
+                    ${modelo.negociacoes.map(neg => 
+                        `
                             <tr>
                                 <td>${DateHelper.formatData(neg.data)}</td>
                                 <td>${neg.quantidade}</td>
@@ -30,10 +30,21 @@ class NegociacaoView {
                                 <td>${neg.volume}</td>
                             </tr>
                         `
-                    }).join('')}
+                    ).join('')}
                 </tbody>
                 
                 <tfoot>
+                    <tr>
+                        <td colspan='3'>VOLUME TOTAL</td>
+                        <td>${
+                                (function() {
+                                    let total = 0;
+                                    modelo.negociacoes.forEach(n => total += n.volume);
+                                    return total;
+                                })()
+                            }
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         `;
