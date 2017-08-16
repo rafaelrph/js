@@ -8,13 +8,13 @@ class NegociacaoController {
 	}
 
 	adicionar(event) {
+		//let da = new DateHelper();
 		event.preventDefault();
-		var data = new Date(...this.campoData.value.split("-")
-								.map((item, index) => item - index % 2)
-							);
+		let data = DateHelper.criarData(this.campoData.value);
 
-		var negociacao = new Negociacao(data, this.campoQuantidade.value, this.campoValor.value);
+		let negociacao = new Negociacao(data, this.campoQuantidade.value, this.campoValor.value);
 		console.log(negociacao);
+		console.log(DateHelper.formatData(data));
 	}
 
 }
