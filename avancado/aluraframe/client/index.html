@@ -52,6 +52,9 @@
     <script src="js/app/models/Mensagem.js"></script>
     <script src="js/app/models/ListaNegociacoes.js"></script>
     <script src="js/app/models/Codigo.js"></script>
+    <script src="js/app/models/Conta.js"></script>
+    <script src="js/app/models/ContaCorrente.js"></script>
+    <script src="js/app/models/ContaPoupanca.js"></script>
 
     <script src="js/app/helpers/DateHelper.js"></script>
 
@@ -74,6 +77,14 @@
         let codigo = new Codigo(/\D{3}-\D{2}-\d{2}/);
         console.log(codigo.validar("GWP-DD-11"));
         console.log(codigo.validar("GW0-DD-11"));
+
+        let conta1 = new ContaCorrente(100);
+        let conta2 = new ContaPoupanca(100);
+        conta1.atualiza(20);
+        conta2.atualiza(20);
+
+        console.log(conta1);
+        console.log(conta2);
 
     </script>
 </body>
