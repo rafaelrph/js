@@ -10,7 +10,7 @@ class NegociacaoController {
 		this._negociacaoView = new NegociacaoView($("#negociacoes"));
 		//this._negociacaoView.update(this._listaNegociacoes);
 
-		this._mensagem = new Mensagem();
+		this._mensagem = ProxyFactory.create(new Mensagem(), ['texto'], model => this._mensagemView.update(model));
 		this._mensagemView = new MensagemView($("#mensagem"));
 		this._mensagemView.update(this._mensagem);
 	}
@@ -18,11 +18,7 @@ class NegociacaoController {
 	adicionar(event) {
 		event.preventDefault();
 		this._listaNegociacoes.adicionar(this._criarNegociacao());
-
-		//this._negociacaoView.update(this._listaNegociacoes);
-
 		this._mensagem.texto = "Negociação adicionada com sucesso.";
-		this._mensagemView.update(this._mensagem);
 		
 		this._limparFormulario();
 	}
@@ -42,10 +38,7 @@ class NegociacaoController {
 
 	apagarLista() {
 		this._listaNegociacoes.esvaziar();
-		//this._negociacaoView.update(this._listaNegociacoes);
-		
 		this._mensagem.texto = "Negociações apagadas com sucesso.";
-		this._mensagemView.update(this._mensagem);
 	}
 
 }
