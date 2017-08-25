@@ -6,7 +6,7 @@ class NegociacaoController {
 		this._campoQuantidade = $('#quantidade');
 		this._campoValor = $('#valor');
 
-		this._listaNegociacoes = new Binding(new ListaNegociacoes(), new NegociacaoView($("#negociacoes")), 'adicionar', 'esvaziar');		
+		this._listaNegociacoes = new Binding(new ListaNegociacoes(), new NegociacaoView($("#negociacoes")), 'adicionar', 'esvaziar', 'ordenar');		
 		this._mensagem = new Binding(new Mensagem(), new MensagemView($("#mensagem")), 'texto');
 	}
 
@@ -75,6 +75,10 @@ class NegociacaoController {
 				this._mensagem.texto = "Negociações retrasadas importadas com sucesso.";
 			})
 			.catch(erro => this._mensagem.texto = erro);
+	}
+
+	ordenar(coluna) {
+		this._listaNegociacoes.ordenar((a, b) => a[coluna] - b[coluna]);
 	}
 
 }
