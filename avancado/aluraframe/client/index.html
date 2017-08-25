@@ -34,8 +34,14 @@
     </form>
     
     <div class="text-center">
+        <button class="btn btn-primary text-center" type="button" onclick="negociacaoController.importarNegociacoesAnteriores()">
+            Importar Neg. Anteriores
+        </button>
         <button class="btn btn-primary text-center" type="button" onclick="negociacaoController.importarNegociacoes()">
-            Importar Negociações
+            Importar Neg. da Semana
+        </button>
+        <button class="btn btn-primary text-center" type="button" onclick="negociacaoController.importarNegociacoesRetrasadas()">
+            Importar Neg. Retrasadas
         </button>
         <button class="btn btn-primary text-center" onclick="negociacaoController.apagarLista()" type="button">
             Apagar
