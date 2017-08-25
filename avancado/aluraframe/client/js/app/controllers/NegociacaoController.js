@@ -38,38 +38,33 @@ class NegociacaoController {
 
 	importarNegociacoes() {
 		let service = new NegociacaoService();
-		service.obterNegociacoesDaSemana((erro, negociacoes) => {
-			if(erro) {
-				this._mensagem.texto = erro;
-				return;
-			}
-			negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
-			this._mensagem.texto = "Negociações importadas com sucesso.";
-		});
+		service.obterNegociacoesDaSemana()
+			.then(negociacoes => {
+				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
+				this._mensagem.texto = "Negociações importadas com sucesso.";
+			})
+			.catch(error => this._mensagem.texto = error);
+		
 	}
 
 	importarNegociacoesAnteriores() {
 		let service = new NegociacaoService();
-		service.obterNegociacoesAnterior((erro, negociacoes) => {
-			if(erro) {
-				this._mensagem.texto = erro;
-				return;
-			}
-			negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
-			this._mensagem.texto = "Negociações anteriores importadas com sucesso.";
-		});
+		service.obterNegociacoesAnterior()
+			.then(negociacoes => {
+				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
+				this._mensagem.texto = "Negociações anteriores importadas com sucesso.";
+			})
+			.catch(erro => this._mensagem.texto = erro);
 	}
 
 	importarNegociacoesRetrasadas() {
 		let service = new NegociacaoService();
-		service.obterNegociacoesRetrasada((erro, negociacoes) => {
-			if(erro) {
-				this._mensagem.texto = erro;
-				return;
-			}
-			negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
-			this._mensagem.texto = "Negociações retrasadas importadas com sucesso.";
-		});
+		service.obterNegociacoesRetrasada()
+			.then(negociacoes => {
+				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
+				this._mensagem.texto = "Negociações retrasadas importadas com sucesso.";
+			})
+			.catch(erro => this._mensagem.texto = erro);
 	}
 
 }
