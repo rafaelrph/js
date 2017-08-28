@@ -11,15 +11,18 @@ class NegociacaoController {
 	}
 
 	adicionar(event) {
-		event.preventDefault();
-		this._listaNegociacoes.adicionar(this._criarNegociacao());
-		this._mensagem.texto = "Negociação adicionada com sucesso.";
-		
-		this._limparFormulario();
+		try {
+			event.preventDefault();
+			this._listaNegociacoes.adicionar(this._criarNegociacao());
+			this._mensagem.texto = "Negociação adicionada com sucesso.";	
+			this._limparFormulario();
+		} catch (erro) {
+			this._mensagem.texto = erro;
+		}
 	}
 
 	_criarNegociacao() {
-		let data = DateHelper.criarData(this._campoData.value);
+		let data = DateHelper.textoParaData(this._campoData.value);
 		return new Negociacao(data, this._campoQuantidade.value, this._campoValor.value)
 	}
 
