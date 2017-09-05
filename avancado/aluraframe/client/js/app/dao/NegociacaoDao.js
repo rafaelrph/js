@@ -8,9 +8,7 @@ class NegociacaoDao {
     adicionar(negociacao) {
         return new Promise((resolve, reject) => {
             let request = this._connection.transaction([this._store], 'readwrite').objectStore(this._store).add(negociacao);
-            request.onsuccess = (e) => {
-                resolve();
-            };
+            request.onsuccess = (e) => resolve();
             request.onerror = (e) => {
                 console.log(e.target.error);
                 reject('Não foi possível inserir a negociação.');
@@ -37,5 +35,13 @@ class NegociacaoDao {
             };
         });
     }
+
+    removerTodos() {
+        return new Promise((resolve, reject) => {
+            let cursor = this._connection.transaction([this._store], 'readwrite').objectStore(this._store).clear();
+            cursor.onsuccess = (e) => resolve();
+            cursor.onerror = (e) => reject("Não foi possível remover todas as negociações.");
+        });
+    } 
 
 }

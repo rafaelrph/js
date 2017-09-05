@@ -32,6 +32,15 @@ class NegociacaoController {
 		}).catch(error => this._mensagem.texto = error);
 	}
 
+	removerTodos() {
+		ConnectionFactory.getConnection().then(connection => {
+			new NegociacaoDao(connection).removerTodos().then(() => {
+				this._listaNegociacoes.esvaziar();
+				this._mensagem.texto = "Negociações apagadas com sucesso.";
+			}).catch((error) => this._mensagem.texto = error);
+		})
+	}
+
 	_criarNegociacao() {
 		let data = DateHelper.textoParaData(this._campoData.value);
 		return new Negociacao(data, this._campoQuantidade.value, this._campoValor.value)
@@ -41,7 +50,6 @@ class NegociacaoController {
 		this._campoData.value = "";
 		this._campoQuantidade.value = 1;
 		this._campoValor.value = 0;
-
 		this._campoData.focus();
 	}
 
