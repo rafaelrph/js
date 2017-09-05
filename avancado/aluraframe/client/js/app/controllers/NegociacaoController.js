@@ -6,8 +6,9 @@ class NegociacaoController {
 		this._campoQuantidade = $('#quantidade');
 		this._campoValor = $('#valor');
 		this._ordemAtual = '';
-		this._listaNegociacoes = new Binding(new ListaNegociacoes(), new NegociacaoView($("#negociacoes")), 'adicionar', 'esvaziar', 'ordenar', 'inverter');		
+		this._listaNegociacoes = new Binding(new ListaNegociacoes(), new NegociacaoView($("#negociacoes")), 'adicionar', 'esvaziar', 'ordenar', 'inverter', 'listar');		
 		this._mensagem = new Binding(new Mensagem(), new MensagemView($("#mensagem")), 'texto');
+		this.listarTodos();
 	}
 
 	adicionar(event) {
@@ -19,6 +20,14 @@ class NegociacaoController {
 				this._listaNegociacoes.adicionar(negociacao);
 				this._mensagem.texto = "Negociação adicionada com sucesso.";	
 				this._limparFormulario();
+			});
+		}).catch(error => this._mensagem.texto = error);
+	}
+
+	listarTodos() {
+		ConnectionFactory.getConnection().then(connection => {
+			new NegociacaoDao(connection).listar().then((negociacoes) => {
+				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
 			});
 		}).catch(error => this._mensagem.texto = error);
 	}

@@ -18,4 +18,24 @@ class NegociacaoDao {
         });
     }
 
+    listar() {
+        return new Promise((resolve, reject) => {
+            let cursor = this._connection.transaction([this._store], 'readwrite').objectStore(this._store).openCursor();
+            let negociacoes = [];
+            cursor.onsuccess = (e) => {
+                let atual = e.target.result;
+                if(atual) {
+                    let registro = atual.value;
+                    negociacoes.push(new Negociacao(registro._data, registro._quantidade, registro._valor));
+                    atual.continue();
+                } else {
+                    resolve(negociacoes);
+                }
+            };
+            cursor.onerror = (e) => {
+                reject("Não foi possível listar as negociações.");
+            };
+        });
+    }
+
 }
