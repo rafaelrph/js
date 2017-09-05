@@ -1,10 +1,11 @@
 
 var ConnectionFactory = (function () {
-    let dbName = "cursoalura";
-    let versionDb = 1;
-    let stores = ['negociacoes'];
+    const dbName = "cursoalura";
+    const versionDb = 1;
+    const stores = ['negociacoes'];
 
     let connection = null;
+    let close = null;
 
     return class ConnectionFactory {
 
@@ -23,6 +24,7 @@ var ConnectionFactory = (function () {
                 openRequest.onsuccess = (e) => {
                     if(!connection) {
                         connection = e.target.result;
+                        close = connection.close.bind(connection);
                         connection.close = () => {
                             throw new Error("Você não pode fechar diretamente a conexão.");
                         }
@@ -31,14 +33,14 @@ var ConnectionFactory = (function () {
                 };
 
                 openRequest.onerror = (e) => {
-
+                    reject("Não foi possível buscar ou criar a conexão.");
                 };
             });
         }
 
         static closeConnection() {
             if(connection) {
-                connection.close();
+                close();
                 connection = null;
             }
         }
