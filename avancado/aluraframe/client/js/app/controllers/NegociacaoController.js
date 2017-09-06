@@ -6,6 +6,7 @@ class NegociacaoController {
 		this._campoQuantidade = $('#quantidade');
 		this._campoValor = $('#valor');
 		this._ordemAtual = '';
+		this._service = new NegociacaoService();
 		this._listaNegociacoes = new Binding(new ListaNegociacoes(), new NegociacaoView($("#negociacoes")), 'adicionar', 'esvaziar', 'ordenar', 'inverter', 'listar');		
 		this._mensagem = new Binding(new Mensagem(), new MensagemView($("#mensagem")), 'texto');
 		this._init();
@@ -20,7 +21,7 @@ class NegociacaoController {
 	adicionar(event) {
 		event.preventDefault();
 		let negociacao = this._criarNegociacao();
-		new NegociacaoService().adicionar(negociacao).then(mensagem => {
+		this._service.adicionar(negociacao).then(mensagem => {
 			this._listaNegociacoes.adicionar(negociacao);
 			this._mensagem.texto = "Negociação adicionada com sucesso.";	
 			this._limparFormulario();
@@ -28,20 +29,18 @@ class NegociacaoController {
 	}
 
 	listarTodosDb() {
-		ConnectionFactory.getConnection().then(connection => {
-			new NegociacaoDao(connection).listar().then((negociacoes) => {
+		this._service.listar()
+			.then(negociacoes => {
 				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
-			});
-		}).catch(error => this._mensagem.texto = error);
+			}).catch(error => this._mensagem.texto = error);
 	}
 
 	removerTodos() {
-		ConnectionFactory.getConnection().then(connection => {
-			new NegociacaoDao(connection).removerTodos().then(() => {
+		this._service.removerTodos()
+			.then(() => {
 				this._listaNegociacoes.esvaziar();
-				this._mensagem.texto = "Negociações apagadas com sucesso.";
-			}).catch((error) => this._mensagem.texto = error);
-		})
+				this._mensagem.texto = 'Negociações apagadas com sucesso';
+			}).catch(error => this._mensagem.texto = error);
 	}
 
 	_criarNegociacao() {
@@ -62,15 +61,8 @@ class NegociacaoController {
 	}
 
 	importarTodasNegociacoes() {
-		let service = new NegociacaoService();
-		service.obterTodasNegociacoes()
+		this._service.importar(this._listaNegociacoes)
 		.then(negociacoes => 
-			negociacoes.filter(negociacao => 
-				!this._listaNegociacoes.negociacoes.some(negociacaoExistente => 
-					JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)
-				)
-			)
-		).then(negociacoes => 
 			negociacoes.forEach(negociacao => {
 				this._listaNegociacoes.adicionar(negociacao)
 				this._mensagem.texto = "Negociações importadas com sucesso.";
@@ -80,8 +72,7 @@ class NegociacaoController {
 	}
 
 	importarNegociacoes() {
-		let service = new NegociacaoService();
-		service.obterNegociacoesDaSemana()
+		this._service.obterNegociacoesDaSemana()
 			.then(negociacoes => {
 				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
 				this._mensagem.texto = "Negociações importadas com sucesso.";
@@ -91,8 +82,7 @@ class NegociacaoController {
 	}
 
 	importarNegociacoesAnteriores() {
-		let service = new NegociacaoService();
-		service.obterNegociacoesAnterior()
+		this._service.obterNegociacoesAnterior()
 			.then(negociacoes => {
 				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
 				this._mensagem.texto = "Negociações anteriores importadas com sucesso.";
@@ -101,8 +91,7 @@ class NegociacaoController {
 	}
 
 	importarNegociacoesRetrasadas() {
-		let service = new NegociacaoService();
-		service.obterNegociacoesRetrasada()
+		this._service.obterNegociacoesRetrasada()
 			.then(negociacoes => {
 				negociacoes.forEach(negociacao => this._listaNegociacoes.adicionar(negociacao));
 				this._mensagem.texto = "Negociações retrasadas importadas com sucesso.";

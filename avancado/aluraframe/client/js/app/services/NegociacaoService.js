@@ -14,6 +14,29 @@ class NegociacaoService {
 			});
 	}
 
+	listar() {
+		return ConnectionFactory.getConnection()
+			.then(connection => new NegociacaoDao(connection))
+			.then(dao => dao.listar());
+	}
+
+	removerTodos() {
+		return ConnectionFactory.getConnection()
+			.then(connection => new NegociacaoDao(connection))
+			.then(dao => dao.removerTodos());
+	}
+
+	importar(listaAtual) {
+		return this.obterTodasNegociacoes()
+		.then(negociacoes => 
+			negociacoes.filter(negociacao => 
+				!listaAtual.negociacoes.some(negociacaoExistente => 
+					JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)
+				)
+			)
+		).catch(error => this._mensagem.texto = error);
+	}
+
 	obterTodasNegociacoes() {
 		return Promise.all([
 			this.obterNegociacoesDaSemana(),
