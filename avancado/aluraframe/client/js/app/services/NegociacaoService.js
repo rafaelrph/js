@@ -4,6 +4,16 @@ class NegociacaoService {
 		this._http = new HttpService();
 	}
 
+	adicionar(negociacao) {
+		return ConnectionFactory.getConnection()
+			.then(connection => new NegociacaoDao(connection))
+			.then(dao => dao.adicionar(negociacao))
+			.then(() => 'Negociação cadastrada com sucesso')
+			.catch(error => {
+				throw new Error('Não foi possível adicionar a negociação.');
+			});
+	}
+
 	obterTodasNegociacoes() {
 		return Promise.all([
 			this.obterNegociacoesDaSemana(),

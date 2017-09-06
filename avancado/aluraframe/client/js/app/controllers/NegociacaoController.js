@@ -15,19 +15,15 @@ class NegociacaoController {
 		setInterval(() => { 
 			this.importarTodasNegociacoes();
 		}, 3000);
-		//this.listarTodosDb();
 	}
 
 	adicionar(event) {
 		event.preventDefault();
-		
-		ConnectionFactory.getConnection().then(connection => {
-			let negociacao = this._criarNegociacao();
-			new NegociacaoDao(connection).adicionar(negociacao).then(() => {
-				this._listaNegociacoes.adicionar(negociacao);
-				this._mensagem.texto = "Negociação adicionada com sucesso.";	
-				this._limparFormulario();
-			});
+		let negociacao = this._criarNegociacao();
+		new NegociacaoService().adicionar(negociacao).then(mensagem => {
+			this._listaNegociacoes.adicionar(negociacao);
+			this._mensagem.texto = "Negociação adicionada com sucesso.";	
+			this._limparFormulario();
 		}).catch(error => this._mensagem.texto = error);
 	}
 
