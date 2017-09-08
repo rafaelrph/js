@@ -14,20 +14,11 @@ class HttpService {
 	}
 	
 	post(url, objeto){
-		return new Promise((resolve, reject) => {
-			let xhr = new XMLHttpRequest();
-			xhr.open('POST', url);
-			xhr.onreadystatechange = () => {
-				if(xhr.readyState == 4) {
-					if(xhr.status == 200) {
-						resolve(JSON.parse(xhr.responseText));
-					} else {
-						reject(xhr.responseText);
-					}
-				}
-			}
-			xhr.send(JSON.stringify(objeto));
-		});
+		return fetch(url, {
+			headers: {'Content-type': 'application/json'},
+			method: 'post',
+			body: JSON.stringify(objeto)
+		}).then(response => this._handleError(response));
 	}
 
 }
