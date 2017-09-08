@@ -1,20 +1,16 @@
 class HttpService {
 
+	_handleError(response) {
+		if(!response.ok) {
+			throw new Error(res.statusText);
+		}
+		return response;
+	}
+
     get(url) {
-        return new Promise((resolve, reject) => {
-			let xhr = new XMLHttpRequest();
-			xhr.open('GET', url);
-			xhr.onreadystatechange = () => {
-				if(xhr.readyState == 4) {
-					if(xhr.status == 200) {
-						resolve(JSON.parse(xhr.responseText));                    
-					} else {
-						reject();
-					}
-				}
-			};
-			xhr.send();
-		});
+		return fetch(url)
+			.then(response => this._handleError(response))
+			.then(response => response.json());
 	}
 	
 	post(url, objeto){
