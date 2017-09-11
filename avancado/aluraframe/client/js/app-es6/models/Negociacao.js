@@ -1,4 +1,4 @@
-class Negociacao {
+export class Negociacao {
     
     constructor(data, quantidade, valor) {
         this._data = data;
@@ -26,4 +26,5 @@ class Negociacao {
     get volume(){
         return this._volume;
     }
+    
 }

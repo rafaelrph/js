@@ -1,4 +1,5 @@
-class Mensagem {
+export class Mensagem {
+
     constructor(texto='') {
         this._texto = texto;
     }
@@ -10,4 +11,5 @@ class Mensagem {
     set texto(texto) {
         this._texto = texto;
     }
+    
 }

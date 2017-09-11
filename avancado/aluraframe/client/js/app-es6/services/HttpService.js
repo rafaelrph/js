@@ -1,4 +1,4 @@
-class HttpService {
+export class HttpService {
 
 	_handleError(response) {
 		if(!response.ok) {
