@@ -1,57 +1,71 @@
+"use strict";
 
-var ConnectionFactory = (function () {
-    const dbName = "cursoalura";
-    const versionDb = 1;
-    const stores = ['negociacoes'];
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    let connection = null;
-    let close = null;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    return class ConnectionFactory {
+var ConnectionFactory = function () {
+    var dbName = "cursoalura";
+    var versionDb = 1;
+    var stores = ['negociacoes'];
 
-        constructor() {
+    var connection = null;
+    var close = null;
+
+    return function () {
+        function ConnectionFactory() {
+            _classCallCheck(this, ConnectionFactory);
+
             throw new Error("Não é possível criar uma instância de ConnectionFactory.");
         }
 
-        static getConnection() {
-            return new Promise((resolve, reject) => {
-                let openRequest = window.indexedDB.open(dbName, versionDb);
+        _createClass(ConnectionFactory, null, [{
+            key: "getConnection",
+            value: function getConnection() {
+                return new Promise(function (resolve, reject) {
+                    var openRequest = window.indexedDB.open(dbName, versionDb);
 
-                openRequest.onupgradeneeded = (e) => {
-                    ConnectionFactory._createStore(e.target.result)
-                };
+                    openRequest.onupgradeneeded = function (e) {
+                        ConnectionFactory._createStore(e.target.result);
+                    };
 
-                openRequest.onsuccess = (e) => {
-                    if(!connection) {
-                        connection = e.target.result;
-                        close = connection.close.bind(connection);
-                        connection.close = () => {
-                            throw new Error("Você não pode fechar diretamente a conexão.");
+                    openRequest.onsuccess = function (e) {
+                        if (!connection) {
+                            connection = e.target.result;
+                            close = connection.close.bind(connection);
+                            connection.close = function () {
+                                throw new Error("Você não pode fechar diretamente a conexão.");
+                            };
                         }
-                    }
-                    resolve(connection);
-                };
+                        resolve(connection);
+                    };
 
-                openRequest.onerror = (e) => {
-                    reject("Não foi possível buscar ou criar a conexão.");
-                };
-            });
-        }
-
-        static closeConnection() {
-            if(connection) {
-                close();
-                connection = null;
+                    openRequest.onerror = function (e) {
+                        reject("Não foi possível buscar ou criar a conexão.");
+                    };
+                });
             }
-        }
-
-        static _createStore(connection) {
-            stores.forEach(store => {
-                if(connection.objectStoreNames.contains(store)) {
-                    connection.deleteObjectStore(store);
+        }, {
+            key: "closeConnection",
+            value: function closeConnection() {
+                if (connection) {
+                    close();
+                    connection = null;
                 }
-                connection.createObjectStore(store, {autoIncrement: true});
-            });
-        }
-    }
-})();
+            }
+        }, {
+            key: "_createStore",
+            value: function _createStore(connection) {
+                stores.forEach(function (store) {
+                    if (connection.objectStoreNames.contains(store)) {
+                        connection.deleteObjectStore(store);
+                    }
+                    connection.createObjectStore(store, { autoIncrement: true });
+                });
+            }
+        }]);
+
+        return ConnectionFactory;
+    }();
+}();
+//# sourceMappingURL=ConnectionFactory.js.map

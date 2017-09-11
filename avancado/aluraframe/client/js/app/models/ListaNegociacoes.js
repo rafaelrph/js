@@ -1,30 +1,50 @@
-class ListaNegociacoes {
-    
-    constructor() {
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ListaNegociacoes = function () {
+    function ListaNegociacoes() {
+        _classCallCheck(this, ListaNegociacoes);
+
         this._negociacoes = [];
     }
 
-    adicionar(negociacao) {
-        this._negociacoes.push(negociacao);
-    }
+    _createClass(ListaNegociacoes, [{
+        key: "adicionar",
+        value: function adicionar(negociacao) {
+            this._negociacoes.push(negociacao);
+        }
+    }, {
+        key: "esvaziar",
+        value: function esvaziar() {
+            this._negociacoes = [];
+        }
+    }, {
+        key: "ordenar",
+        value: function ordenar(criterio) {
+            this._negociacoes.sort(criterio);
+        }
+    }, {
+        key: "inverter",
+        value: function inverter() {
+            this._negociacoes.reverse();
+        }
+    }, {
+        key: "negociacoes",
+        get: function get() {
+            return [].concat(this._negociacoes);
+        }
+    }, {
+        key: "volumeTotal",
+        get: function get() {
+            return this._negociacoes.reduce(function (total, negociacao) {
+                return total + negociacao.volume;
+            }, 0.0);
+        }
+    }]);
 
-    get negociacoes() {
-        return [].concat(this._negociacoes);
-    }
-
-    esvaziar() {
-        this._negociacoes = [];
-    }
-
-    get volumeTotal() {
-		return this._negociacoes.reduce((total, negociacao) => total + negociacao.volume, 0.0);
-    }
-    
-    ordenar(criterio) {
-        this._negociacoes.sort(criterio);
-    }
-
-    inverter() {
-        this._negociacoes.reverse();
-    }
-}
+    return ListaNegociacoes;
+}();
+//# sourceMappingURL=ListaNegociacoes.js.map
