@@ -7,7 +7,7 @@ import {Mensagem} from '../models/Mensagem';
 import {MensagemView} from '../views/MensagemView';
 import {NegociacaoView} from '../views/NegociacaoView';
 
-export class NegociacaoController {
+class NegociacaoController {
 
 	constructor() {
 		let $ = document.querySelector.bind(document);
@@ -117,4 +117,10 @@ export class NegociacaoController {
 		this._ordemAtual = coluna;
 	}
 
+}
+
+let negociacaoController = new NegociacaoController();
+
+export function currentInstance() {
+	return negociacaoController;
 }

@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./View', '../helpers/DateHelper'], function (_export, _context) {
+System.register(['./View', '../helpers/DateHelper', '../controllers/NegociacaoController'], function (_export, _context) {
     "use strict";
 
-    var View, DateHelper, _createClass, NegociacaoView;
+    var View, DateHelper, currentInstance, _createClass, NegociacaoView;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -40,6 +40,8 @@ System.register(['./View', '../helpers/DateHelper'], function (_export, _context
             View = _View2.View;
         }, function (_helpersDateHelper) {
             DateHelper = _helpersDateHelper.DateHelper;
+        }, function (_controllersNegociacaoController) {
+            currentInstance = _controllersNegociacaoController.currentInstance;
         }],
         execute: function () {
             _createClass = function () {
@@ -63,16 +65,23 @@ System.register(['./View', '../helpers/DateHelper'], function (_export, _context
             _export('NegociacaoView', NegociacaoView = function (_View) {
                 _inherits(NegociacaoView, _View);
 
-                function NegociacaoView() {
+                function NegociacaoView(elemento) {
                     _classCallCheck(this, NegociacaoView);
 
-                    return _possibleConstructorReturn(this, (NegociacaoView.__proto__ || Object.getPrototypeOf(NegociacaoView)).apply(this, arguments));
+                    var _this = _possibleConstructorReturn(this, (NegociacaoView.__proto__ || Object.getPrototypeOf(NegociacaoView)).call(this, elemento));
+
+                    elemento.addEventListener('click', function (event) {
+                        if (event.target.nodeName == 'TH') {
+                            currentInstance().ordenar(event.target.textContent.toLowerCase());
+                        }
+                    });
+                    return _this;
                 }
 
                 _createClass(NegociacaoView, [{
                     key: 'template',
                     value: function template(modelo) {
-                        return '\n            <table class="table table-hover table-bordered">\n                <thead>\n                    <tr>\n                        <th class=\'thordena\' onclick="negociacaoController.ordenar(\'data\')">DATA</th>\n                        <th class=\'thordena\' onclick="negociacaoController.ordenar(\'quantidade\')">QUANTIDADE</th>\n                        <th class=\'thordena\' onclick="negociacaoController.ordenar(\'valor\')">VALOR</th>\n                        <th class=\'thordena\' onclick="negociacaoController.ordenar(\'volume\')">VOLUME</th>\n                    </tr>\n                </thead>\n                \n                <tbody>\n                    ' + modelo.negociacoes.map(function (neg) {
+                        return '\n            <table class="table table-hover table-bordered">\n                <thead>\n                    <tr>\n                        <th class=\'thordena\'>DATA</th>\n                        <th class=\'thordena\'>QUANTIDADE</th>\n                        <th class=\'thordena\'>VALOR</th>\n                        <th class=\'thordena\'>VOLUME</th>\n                    </tr>\n                </thead>\n                \n                <tbody>\n                    ' + modelo.negociacoes.map(function (neg) {
                             return '\n                            <tr>\n                                <td>' + DateHelper.formatData(neg.data) + '</td>\n                                <td>' + neg.quantidade + '</td>\n                                <td>' + neg.valor + '</td>\n                                <td>' + neg.volume + '</td>\n                            </tr>\n                        ';
                         }).join('') + '\n                </tbody>\n                \n                <tfoot>\n                    <tr>\n                        <td colspan=\'3\'>VOLUME TOTAL</td>\n                        <td>' + modelo.volumeTotal + '\n                        </td>\n                    </tr>\n                </tfoot>\n            </table>\n        ';
                     }
